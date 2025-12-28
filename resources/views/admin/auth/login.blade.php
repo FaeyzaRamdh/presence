@@ -4,64 +4,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TIX ID - Login</title>
+    <title>Absensi - Login</title>
 
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
-    <!-- MDB -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.1.0/mdb.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        .password-toggle {
+            cursor: pointer;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
 </head>
 
-<body>
+<body class="min-vh-100 d-flex align-items-center justify-content-center bg-primary bg-gradient p-4">
 
 
-    @if (Session::get('success'))
-        <div class="alert alert-success"> {{ Session::get('success') }}</div>
-    @endif
+    <div class="card shadow login-card p-4 mx-auto"style="max-width: 450px; width: 100%; border-radius: 15px;">
+        <div class="text-center mb-4">
+            <i id="fingerIcon" class="fas fa-fingerprint fa-3x text-secondary"></i>
 
-    @if (Session::get('error'))
-        <div class="alert alert-danger"> {{ Session::get('error') }}</div>
-    @endif
-
-    <form class="w-50 d-block mx-auto my-5" method='POST' action="{{ route('login.store') }}">
-        @csrf
-        <!-- Email input -->
-        @error('email')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <div data-mdb-input-init class="form-outline mb-4">
-            <input type="email" id="form1example1" class="form-control @error('email') is-invalid @enderror"
-                name="email" value="{{ old('email') }}" required autofocus />
-            <label for="form1example1" class="form-label">Email</label>
+            <h3 class="fw-bold mt-2">INTRAlog</h3>
+            <p class="text-muted">Silakan login untuk melanjutkan</p>
         </div>
 
-        <!-- Password input -->
-        @error('password')
-            <small class="text-danger">{{ $message }}</small>
-        @enderror
-        <div data-mdb-input-init class="form-outline mb-4">
-            <input type="password" id="form1example2" class="form-control @error('password') is-invalid @enderror"
-                name="password" />
-            <label for="form1example2" class="form-label">Password</label>
+        <!-- Alert -->
+        @if (Session::get('success'))
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i>{{ Session::get('success') }}
+            </div>
+        @endif
+
+        @if (Session::get('error'))
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i>{{ Session::get('error') }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('login.store') }}">
+            @csrf
+
+            <!-- Email -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="fa fa-envelope text-primary"></i></span>
+                    <input type="email" class="form-control @error('email') is-invalid @enderror" name="email"
+                        placeholder="Masukkan email" value="{{ old('email') }}" required autofocus>
+                </div>
+                @error('email')
+                    <small class="text-danger"><i class="fa fa-exclamation-circle me-1"></i>{{ $message }}</small>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3 position-relative">
+                <label class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="fa fa-lock text-primary"></i></span>
+
+                    <input type="password" id="password" class="form-control @error('password') is-invalid @enderror"
+                        name="password" placeholder="Masukkan password">
+
+                    <span class="password-toggle text-primary" onclick="togglePassword()">
+                        <i class="fa fa-eye"></i>
+                    </span>
+                </div>
+                @error('password')
+                    <small class="text-danger"><i class="fa fa-exclamation-circle me-1"></i>{{ $message }}</small>
+                @enderror
+            </div>
+
+            <!-- Button -->
+            <button type="submit" class="btn btn-primary w-100 fw-semibold mb-3">
+                <i class="fas fa-sign-in-alt me-2"></i> Login
+            </button>
+
+            <p class="text-center">
+                <a href="https://wa.me/62895404747799?text=Halo%20Admin,%20saya%20lupa%20password.%20Mohon%20dibantu%20untuk%20pembuatan%20password%20baru."
+                    class="text-primary" target="_blank">
+                    Lupa Password?
+                </a>
+            </p>
+
+
+
+        </form>
+
+        <div class="text-center mt-3 text-muted">
+            &copy; {{ date('Y') }} Sistem Absensi
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
+    </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    </form>
+    <script>
+        function togglePassword() {
+            const input = document.getElementById("password");
+            const icon = document.querySelector(".password-toggle i");
 
-    <!-- Bootstrap & MDB Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+            }
+        }
+
+        const icon = document.getElementById('fingerIcon');
+
+        // saat mouse masuk
+        icon.addEventListener('mouseenter', function() {
+            icon.classList.remove('text-secondary');
+            icon.classList.add('text-primary');
+        });
+
+        // saat mouse keluar
+        icon.addEventListener('mouseleave', function() {
+            icon.classList.remove('text-primary');
+            icon.classList.add('text-secondary');
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
-        integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous">
-    </script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.1.0/mdb.umd.min.js"></script>
+
 </body>
 
 </html>

@@ -28,7 +28,7 @@
         </div>
 
         <button type="submit" class="btn btn-warning">🚪 Absen Pulang</button>
-        <a href="{{ route('presence.index') }}" class="btn btn-secondary">⬅ Kembali</a>
+        <a href="{{ route('user.home') }}" class="btn btn-secondary">⬅ Kembali</a>
     </form>
 </div>
 @endsection

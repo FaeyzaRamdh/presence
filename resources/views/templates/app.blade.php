@@ -20,28 +20,30 @@
         <div class="container">
             <!-- Brand -->
             <a class="navbar-brand me-2" href="#">
-                <img src="{{ asset('asset/three.jpeg') }}"
-                     height="16" alt="Absensi Logo" style="margin-top: -1px;" />
+                <i id="fingerIcon" class="fas fa-fingerprint fa-sm text-primary " style="margin-top: -1px;"
+                    aria-label="Absensi Logo"></i>
+
             </a>
 
             <!-- Toggler -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarButtonsExample" aria-controls="navbarButtonsExample"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                data-bs-target="#navbarButtonsExample" aria-controls="navbarButtonsExample" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarButtonsExample">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     @auth
-                        @if(Auth::user()->role == 'admin')
+                        @if (Auth::user()->role == 'admin')
                             <li class="nav-item"><a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a></li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="dataMasterDropdown" role="button"
-                                   data-bs-toggle="dropdown" aria-expanded="false">Data Master</a>
+                                    data-bs-toggle="dropdown" aria-expanded="false">Data Master</a>
                                 <ul class="dropdown-menu" aria-labelledby="dataMasterDropdown">
                                     <li><a class="dropdown-item" href="{{ route('users.index') }}">Data Pegawai</a></li>
-                                    <li><a class="dropdown-item" href="{{ route('presence.index') }}">Data Kehadiran</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('presence.index') }}">Data Kehadiran</a>
+                                    </li>
                                 </ul>
                             </li>
                         @elseif(Auth::user()->role == 'user')
@@ -73,6 +75,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/9.1.0/mdb.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @stack('script')
 </body>
+
 </html>
